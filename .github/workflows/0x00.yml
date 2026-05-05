@@ -67,7 +67,7 @@ jobs:
 
           BUNKRR_API = "https://bunkr.cr/api/vs"
           BUNKRR_DOMAINS = ("bunkr.si", "bunkr.fi", "bunkr.ru", "bunkr.cr", "bunkr.rip", "bunkrr.su")
-          BUNKRR_DOWNLOAD_HEADERS = {"User-Agent": "Mozilla/5.0", "Referer": "https://get.bunkrr.su/"}
+          BUNKRR_DOWNLOAD_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0", "Referer": "https://get.bunkrr.su/"}
           _offline_subs = set()
 
           def is_bunkr_url(url): return any(dom in url for dom in BUNKRR_DOMAINS)
@@ -147,7 +147,11 @@ jobs:
               
             else
               echo "Downloading direct file with aria2..."
-              aria2c --split=2 --max-connection-per-server=2 --dir="tmp_downloads" "$URL"
+              aria2c --split=2 \
+                     --max-connection-per-server=2 \
+                     --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0" \
+                     --dir="tmp_downloads" \
+                     "$URL"
             fi
           done
 
@@ -203,7 +207,6 @@ jobs:
             
             DISPLAY_NAME=$(echo "$FNAME" | sed -E 's/android[0-9]+\+_//g; s/-release//g')
             
-            # Using env variable and a python one-liner to prevent any YAML/Bash indentation errors
             export FNAME_ENV="$FNAME"
             SIZE_STR=$(python3 -c "import os; fname = os.environ.get('FNAME_ENV'); path = f'dl/{fname}'; size = os.path.getsize(path) if os.path.exists(path) else 0; print(f'{size/1048576:.1f}MB' if size >= 1048576 else f'{size//1024}KB')")
             
