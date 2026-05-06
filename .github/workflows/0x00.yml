@@ -117,15 +117,22 @@ jobs:
           mkdir -p tmp_downloads dl
           
           if [[ "$QUALITY" == *"1080p"* ]]; then
-            YTDLP_F="-f bestvideo[ext=mp4][height<=1080]+bestaudio[ext=m4a]/best[ext=mp4][height<=1080]/best --merge-output-format mp4"
+            # ترمز ایمنی برداشته شد. 
+            # استخراج هر فرمتی که 1080p باشد (معمولا webm) و ادغام آن
+            YTDLP_F="-f bestvideo[height<=1080]+bestaudio/best[height<=1080]/best --merge-output-format mkv"
+            
           elif [[ "$QUALITY" == *"720p"* ]]; then
             YTDLP_F="-f bestvideo[ext=mp4][height<=720]+bestaudio[ext=m4a]/best[ext=mp4][height<=720]/best --merge-output-format mp4"
+            
           elif [[ "$QUALITY" == *"480p"* ]]; then
             YTDLP_F="-f bestvideo[ext=mp4][height<=480]+bestaudio[ext=m4a]/best[ext=mp4][height<=480]/best --merge-output-format mp4"
+            
           elif [[ "$QUALITY" == *"360p"* ]]; then
             YTDLP_F="-f bestvideo[ext=mp4][height<=360]+bestaudio[ext=m4a]/best[ext=mp4][height<=360]/best --merge-output-format mp4"
+            
           elif [[ "$QUALITY" == *"Audio"* ]]; then
             YTDLP_F="-x --audio-format mp3"
+            
           else
             YTDLP_F="--merge-output-format mp4"
           fi
